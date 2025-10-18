@@ -29,7 +29,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: your-dockerhub-username/n8n-custom-image:latest
+          tags: swissmountain/n8n-py-addons:latest
 
       - name: Logout from Docker Hub
         run: docker logout
