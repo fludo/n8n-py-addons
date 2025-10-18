@@ -17,8 +17,8 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repos
         g++ \
         pkgconfig \
         tesseract-ocr \
-        tesseract-ocr-fra \
-        tesseract-ocr-data-fra
+        tesseract-ocr-data-fra \
+        poppler-utils
     
     # ...existing code...
 
