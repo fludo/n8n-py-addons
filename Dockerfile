@@ -22,10 +22,10 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repos
     
     # ...existing code...
 
-# Upgrade pip and create venv
-RUN python3 -m ensurepip && \
-    pip3 install --no-cache --upgrade pip setuptools wheel && \
-    python3 -m venv /opt/venv
+# Create venv and upgrade pip inside it
+RUN python3 -m venv /opt/venv && \
+    /opt/venv/bin/pip install --no-cache-dir --upgrade pip setuptools wheel
+
 
 # Add venv to path
 ENV PATH="/opt/venv/bin:$PATH"
