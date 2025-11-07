@@ -19,20 +19,9 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repos
         tesseract-ocr \
         tesseract-ocr-data-fra \
         poppler-utils
-    
-    # ...existing code...
 
-# Create venv and upgrade pip inside it
-RUN python3 -m venv /opt/venv && \
-    /opt/venv/bin/pip install --no-cache-dir --upgrade pip setuptools wheel
-
-
-# Add venv to path
-ENV PATH="/opt/venv/bin:$PATH"
-
-# Install Python packages
-RUN pip install --no-cache-dir \
-    pdf2image 
+RUN pip3 install --break-system-packages --no-cache-dir \
+    pdf2image
 
 # Switch back to node user
 USER node
