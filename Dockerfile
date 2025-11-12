@@ -21,7 +21,8 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repos
         poppler-utils
 
 RUN pip3 install --break-system-packages --no-cache-dir \
-    pdf2image
+    pdf2image \
+    pytesseract
 
 # Switch back to node user
 USER node
