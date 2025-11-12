@@ -25,5 +25,9 @@ RUN pip3 install --break-system-packages --no-cache-dir \
     pytesseract \
     spacy
 
+COPY fr_core_news_sm-*.whl /tmp/
+RUN pip3 install --break-system-packages --no-cache-dir /tmp/fr_core_news_sm-*.whl && \
+    rm /tmp/fr_core_news_sm-*.whl
+
 # Switch back to node user
 USER node
