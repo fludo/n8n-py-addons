@@ -22,7 +22,8 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repos
 
 RUN pip3 install --break-system-packages --no-cache-dir \
     pdf2image \
-    pytesseract
+    pytesseract \
+    spacy
 
 # Switch back to node user
 USER node
