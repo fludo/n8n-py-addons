@@ -42,7 +42,7 @@ RUN pip3 install --break-system-packages --no-cache-dir /tmp/fr_core_news_sm-*.w
 RUN set -eux; \
     if command -v apk >/dev/null 2>&1; then \
       echo "Removing apk-tools"; \
-      apk del apk-tools
+      apk del apk-tools \
     fi
 
 # Switch back to node user
