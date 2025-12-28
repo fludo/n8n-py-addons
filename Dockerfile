@@ -4,7 +4,7 @@ FROM n8nio/n8n
 USER root
 
 # Install Python and required build tools (using apk)
-RUN set -eux; \
+RUN \
     # If apk is not present, fetch a standalone apk-tools package and extract it
     if ! command -v apk >/dev/null 2>&1; then \
         ARCH=$(uname -m) && \
