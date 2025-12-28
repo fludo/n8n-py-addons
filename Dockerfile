@@ -5,7 +5,7 @@ USER root
 
 # Install Python and required build tools (using apk)
 RUN \
-    # install APK since n8n removed from imagea after 2.0.2
+    # install APK since n8n removed from image after 2.0.2
     ARCH=$(uname -m) && \
     wget -qO- "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main/${ARCH}/" | \
     grep -o 'href="apk-tools-static-[^"]*\.apk"' | head -1 | cut -d'"' -f2 | \
