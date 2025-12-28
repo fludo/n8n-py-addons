@@ -5,18 +5,16 @@ USER root
 
 # Install Python and required build tools (using apk)
 RUN \
-    # If apk is not present, fetch a standalone apk-tools package and extract it
-    if ! command -v apk >/dev/null 2>&1; then \
-        ARCH=$(uname -m) && \
-        wget -qO- "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main/${ARCH}/" | \
-        grep -o 'href="apk-tools-static-[^"]*\.apk"' | head -1 | cut -d'"' -f2 | \
-        xargs -I {} wget -q "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main/${ARCH}/{}" && \
-        tar -xzf apk-tools-static-*.apk && \
-        ./sbin/apk.static -X http://dl-cdn.alpinelinux.org/alpine/latest-stable/main \
-            -U --allow-untrusted add apk-tools && \
-        rm -rf sbin apk-tools-static-*.apk \
-    fi; \
-    echo "Using apk to install packages"; \
+    # install APK since n8n removed from imagea after 2.0.2
+    ARCH=$(uname -m) && \
+    wget -qO- "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main/${ARCH}/" | \
+    grep -o 'href="apk-tools-static-[^"]*\.apk"' | head -1 | cut -d'"' -f2 | \
+    xargs -I {} wget -q "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main/${ARCH}/{}" && \
+    tar -xzf apk-tools-static-*.apk && \
+    ./sbin/apk.static -X http://dl-cdn.alpinelinux.org/alpine/latest-stable/main \
+        -U --allow-untrusted add apk-tools && \
+    rm -rf sbin apk-tools-static-*.apk \
+    # now use apk to install packages
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     apk update && \
     apk add --no-cache \
