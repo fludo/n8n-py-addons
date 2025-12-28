@@ -14,7 +14,7 @@ RUN set -eux; \
         tar -xzf apk-tools-static-*.apk && \
         ./sbin/apk.static -X http://dl-cdn.alpinelinux.org/alpine/latest-stable/main \
             -U --allow-untrusted add apk-tools && \
-        rm -rf sbin apk-tools-static-*.apk
+        rm -rf sbin apk-tools-static-*.apk \
     fi; \
     echo "Using apk to install packages"; \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
