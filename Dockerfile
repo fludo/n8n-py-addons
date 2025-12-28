@@ -7,10 +7,14 @@ USER root
 RUN set -eux; \
     # If apk is not present, fetch a standalone apk-tools package and extract it
     if ! command -v apk >/dev/null 2>&1; then \
-      echo "Installing apk-tools"; \
-      wget -q https://dl-cdn.alpinelinux.org/alpine/v3.22/main/x86_64/apk-tools-2.14.9-r3.apk  && \
-      tar -xzf apk-tools-2.14.8-r0.apk -C / && \
-      rm apk-tools-2.14.8-r0.apk; \
+        ARCH=$(uname -m) && \
+        wget -qO- "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main/${ARCH}/" | \
+        grep -o 'href="apk-tools-static-[^"]*\.apk"' | head -1 | cut -d'"' -f2 | \
+        xargs -I {} wget -q "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main/${ARCH}/{}" && \
+        tar -xzf apk-tools-static-*.apk && \
+        ./sbin/apk.static -X http://dl-cdn.alpinelinux.org/alpine/latest-stable/main \
+            -U --allow-untrusted add apk-tools && \
+        rm -rf sbin apk-tools-static-*.apk
     fi; \
     echo "Using apk to install packages"; \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
