@@ -15,7 +15,7 @@ RUN \
         -U --allow-untrusted add apk-tools && \
     rm -rf sbin apk-tools-static-*.apk \
     # now use apk to install packages
-    echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/latest-stable/community" >> /etc/apk/repositories && \
     apk update && \
     apk add --no-cache \
       python3 \
