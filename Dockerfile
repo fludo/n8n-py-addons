@@ -42,10 +42,9 @@ COPY fr_core_news_sm-*.whl /tmp/
 RUN pip3 install --break-system-packages --no-cache-dir /tmp/fr_core_news_sm-*.whl && \
     rm /tmp/fr_core_news_sm-*.whl
 
-# Remove apk-tools now that packages are installed
+# Remove build tools and apk-tools to reduce image size
 RUN \
-    echo "Removing apk-tools"; \
-    apk del apk-tools
+    apk del apk-tools build-base python3-dev libffi-dev musl-dev g++ pkgconfig
 
 
 # Switch back to node user
