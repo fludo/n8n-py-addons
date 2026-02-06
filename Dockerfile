@@ -1,5 +1,7 @@
 FROM n8nio/n8n
 
+ARG ALPINE_VERSION=v3.22
+
 # Switch to root to install packages
 USER root
 
@@ -7,15 +9,15 @@ USER root
 RUN \
     # install APK since n8n removed from image after 2.0.2
     ARCH=$(uname -m) && \
-    wget -qO- "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main/${ARCH}/" | \
+    wget -qO- "http://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/main/${ARCH}/" | \
     grep -o 'href="apk-tools-static-[^"]*\.apk"' | head -1 | cut -d'"' -f2 | \
-    xargs -I {} wget -q "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main/${ARCH}/{}" && \
+    xargs -I {} wget -q "http://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/main/${ARCH}/{}" && \
     tar -xzf apk-tools-static-*.apk && \
-    ./sbin/apk.static -X http://dl-cdn.alpinelinux.org/alpine/latest-stable/main \
+    ./sbin/apk.static -X http://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/main \
         -U --allow-untrusted add apk-tools && \
     rm -rf sbin apk-tools-static-*.apk \
     # now use apk to install packages
-    echo "http://dl-cdn.alpinelinux.org/alpine/latest-stable/community" >> /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/community" >> /etc/apk/repositories && \
     apk update && \
     apk add --no-cache \
       python3 \
