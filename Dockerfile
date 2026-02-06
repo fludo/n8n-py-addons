@@ -1,6 +1,6 @@
 FROM n8nio/n8n
 
-ARG ALPINE_VERSION=v3.22
+ARG ALPINE_VERSION=latest-stable
 
 # Switch to root to install packages
 USER root
@@ -25,7 +25,7 @@ RUN \
       build-base \
       python3-dev \
       libffi-dev \
-      openssl-dev \
+#      openssl-dev \
       musl-dev \
       g++ \
       pkgconfig \
