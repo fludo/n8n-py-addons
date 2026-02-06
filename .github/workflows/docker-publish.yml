@@ -55,7 +55,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             swissmountain/n8n-py-addons:latest
-            swissmountain/n8n-py-addons:n8n-${{ steps.n8n_version.outputs.version }}
+            swissmountain/n8n-py-addons:${{ steps.n8n_version.outputs.version }}
           cache-from: type=registry,ref=swissmountain/n8n-py-addons:buildcache
           cache-to: type=registry,ref=swissmountain/n8n-py-addons:buildcache,mode=max
 
