@@ -23,12 +23,22 @@ jobs:
       - name: Extract n8n version from base image
         id: n8n_version
         run: |
-          N8N_VERSION=$(docker inspect n8nio/n8n:latest 2>/dev/null | \
-            grep -i '"org.opencontainers.image.version"' | \
-            head -1 | \
-            grep -oP '(?<="org.opencontainers.image.version": ")[^"]*' || echo "latest")
+          docker pull n8nio/n8n:latest
+          
+          N8N_VERSION=$(docker inspect n8nio/n8n:latest | \
+            jq -r '.[0].Config.Labels."org.opencontainers.image.version"')
+          
+          # If version is null or empty, try to get it from image config
+          if [ "$N8N_VERSION" = "null" ] || [ -z "$N8N_VERSION" ]; then
+            N8N_VERSION="latest"
+          fi
+          
           echo "version=${N8N_VERSION}" >> $GITHUB_OUTPUT
-          echo "N8n version: ${N8N_VERSION}"
+          echo "Extracted N8n version: ${N8N_VERSION}"
+          
+          # Debug: show all labels
+          echo "All image labels:"
+          docker inspect n8nio/n8n:latest | jq '.[0].Config.Labels'
 
       - name: Log in to Docker Hub
         if: github.event_name != 'pull_request'
