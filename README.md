@@ -8,16 +8,16 @@ This image is based on the official `n8nio/n8n` image and adds the following lay
 
 ### 🐍 Python Support
 - **Python 3**: Includes a full Python 3 environment.
-- **Build Tools**: Includes `build-base`, `python3-dev`, `libffi-dev`, `openssl-dev`, etc., allowing for compilation of additional Python packages if needed.
+- **Build Tools**: Includes `build-base`, `python3-dev`, `libffi-dev`, `openssl-dev`, etc., allowing for compilation of additional Python packages if needed. Removed after image built to save space.
 
 ### 👁️ OCR & PDF Processing
 - **Tesseract OCR**: Pre-installed with `tesseract-ocr`.
 - **French Language Support**: Includes `tesseract-ocr-data-fra` for accurate optical character recognition of French text.
 - **PDF Tools**: Includes `poppler-utils` and `pdf2image` for converting PDF documents into images for OCR processing.
-- **PyTesseract**: Python wrapper for Tesseract is installed.
+- **PyTesseract**: Python wrapper for Tesseract.
 
 ### 🧠 NLP (Natural Language Processing)
-- **SpaCy**: The `spacy` library is installed.
+- **SpaCy**: The `spacy` library for NLP.
 - **French Model**: The `fr_core_news_sm` model is pre-installed directly into the image, allowing for immediate French language processing without additional downloads at runtime.
 
 ## Installed Python Packages
@@ -36,3 +36,6 @@ services:
     image: fludo/n8n-py-addons:latest
     # ... other configuration
 ```
+## Maintenance
+
+Images are built irregularly but actively used on a Docker instance. Generally up to date with a delay of 1–2 weeks.
