@@ -6,8 +6,8 @@ ARG ALPINE_VERSION=latest-stable
 USER root
 
 # Install Python and required build tools (using apk)
+# install APK since n8n removed from image after 2.0.2
 RUN \
-    # install APK since n8n removed from image after 2.0.2
     ARCH=$(uname -m) && \
     wget -qO- "http://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/main/${ARCH}/" | \
     grep -o 'href="apk-tools-static-[^"]*\.apk"' | head -1 | cut -d'"' -f2 | \
@@ -15,17 +15,16 @@ RUN \
     tar -xzf apk-tools-static-*.apk && \
     ./sbin/apk.static -X http://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/main \
         -U --allow-untrusted add apk-tools && \
-    rm -rf sbin apk-tools-static-*.apk \
-    # now use apk to install packages
-    echo "http://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/community" >> /etc/apk/repositories && \
+    rm -rf sbin apk-tools-static-*.apk && \
+    printf "http://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/main\nhttp://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/community\n" > /etc/apk/repositories && \
     apk update && \
+    apk upgrade --available && \
     apk add --no-cache \
       python3 \
       py3-pip \
       build-base \
       python3-dev \
       libffi-dev \
-#      openssl-dev \
       musl-dev \
       g++ \
       pkgconfig \
@@ -43,9 +42,8 @@ RUN pip3 install --break-system-packages --no-cache-dir /tmp/fr_core_news_sm-*.w
     rm /tmp/fr_core_news_sm-*.whl
 
 # Remove build tools and apk-tools to reduce image size
-RUN \
-    apk del apk-tools build-base python3-dev libffi-dev musl-dev g++ pkgconfig
-
+# (Ideally, to save final image size, add, pip install, and del should be 1 step, but preserved here)
+RUN apk del apk-tools build-base python3-dev libffi-dev musl-dev g++ pkgconfig
 
 # Switch back to node user
 USER node
